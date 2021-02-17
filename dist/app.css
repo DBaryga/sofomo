@@ -36,16 +36,23 @@
   font-weight: 300;
 }
 
-.primary-photo-cover {
+.photo-cover {
   position: absolute;
   top: 0;
-  left: 0;
   height: 100%;
-  max-width: 100%;
+  max-width: 50%;
   -o-object-fit: cover;
      object-fit: cover;
   filter: brightness(70%);
   z-index: -10;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.right-0 {
+  right: 0;
 }
 
 .w-full {
