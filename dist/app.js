@@ -18,13 +18,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "slider",
-  mounted: function mounted() {
-    console.log('test');
-  }
+  name: "slider"
 });
 
 /***/ }),
@@ -49,10 +44,10 @@ new vue__WEBPACK_IMPORTED_MODULE_1__.default({
 
 /***/ }),
 
-/***/ "./src/app.scss":
-/*!**********************!*\
-  !*** ./src/app.scss ***!
-  \**********************/
+/***/ "./src/scss/app.scss":
+/*!***************************!*\
+  !*** ./src/scss/app.scss ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -145,20 +140,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    { staticClass: "w-full", attrs: { id: "main-wrapper" } },
+    [_vm._t("default")],
+    2
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "yellow-thing" }, [
-        _c("p", [_vm._v("Vue component")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -12356,7 +12345,7 @@ Vue.compile = compileToFunctions;
 /******/ 		
 /******/ 		var deferredModules = [
 /******/ 			["./src/app.js"],
-/******/ 			["./src/app.scss"]
+/******/ 			["./src/scss/app.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

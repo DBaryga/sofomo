@@ -1,16 +1,11 @@
 <template>
-  <div>
-    <div class="yellow-thing">
-      <p>Vue component</p>
-    </div>
+  <div id="main-wrapper" class="w-full">
+    <slot></slot>
   </div>
 </template>
 
 <script>
   export default {
     name: "slider",
-    mounted() {
-      console.log('test')
-    }
   }
 </script>
