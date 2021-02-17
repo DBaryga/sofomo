@@ -20,10 +20,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "slider",
+  props: {
+    photosJson: String
+  },
+  data: function data() {
+    return {
+      isMobile: false,
+      activePrimaryPhoto: 0,
+      activeSecondaryPhoto: 1,
+      photosArray: []
+    };
+  },
+  methods: {
+    convertJsonToArray: function convertJsonToArray() {
+      var json = JSON.parse(this.photosJson);
+
+      for (var i = 0; i < json.length; i++) {
+        this.photosArray.push({
+          id: i,
+          name: json[i].name,
+          alt: json[i].alt
+        });
+      }
+    },
+    listenForScreenResizing: function listenForScreenResizing() {
+      window.addEventListener('resize', this.checkIfMobile);
+    },
+    checkIfMobile: function checkIfMobile() {
+      window.innerWidth < 1024 ? this.isMobile = true : this.isMobile = false;
+    },
+    checkIfActivePhoto: function checkIfActivePhoto(index) {
+      return index === this.activePrimaryPhoto || index === this.activeSecondaryPhoto;
+    },
+    startTimer: function startTimer() {
+      setTimeout(this.changePictures, 7000);
+    },
+    changePictures: function changePictures() {
+      if (this.isMobile) {
+        this.activePrimaryPhoto == this.photosArray.length - 1 ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto++;
+      } else {
+        this.activePrimaryPhoto == this.photosArray.length - 2 ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto += 2;
+        this.activeSecondaryPhoto == this.photosArray.length - 1 ? this.activeSecondaryPhoto = 1 : this.activeSecondaryPhoto += 2;
+      }
+
+      this.startTimer();
+    },
+    returnPhotoSrc: function returnPhotoSrc(photo_name) {
+      return "dist/assets/" + photo_name;
+    },
+    determineSideOfPicture: function determineSideOfPicture(index) {
+      return index % 2 === 0 ? 'left-0' : 'right-0';
+    }
+  },
   mounted: function mounted() {
-    console.log('test');
+    this.convertJsonToArray();
+    this.listenForScreenResizing();
+    this.checkIfMobile();
+    this.startTimer();
   }
 });
 
@@ -49,10 +106,10 @@ new vue__WEBPACK_IMPORTED_MODULE_1__.default({
 
 /***/ }),
 
-/***/ "./src/app.scss":
-/*!**********************!*\
-  !*** ./src/app.scss ***!
-  \**********************/
+/***/ "./src/scss/app.scss":
+/*!***************************!*\
+  !*** ./src/scss/app.scss ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -145,20 +202,40 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    { staticClass: "w-full", attrs: { id: "main-wrapper" } },
+    [
+      _c(
+        "transition-group",
+        { attrs: { name: "slide-fade" } },
+        _vm._l(_vm.photosArray, function(photo, index) {
+          return _c("img", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.checkIfActivePhoto(index),
+                expression: "checkIfActivePhoto(index)"
+              }
+            ],
+            key: photo.id,
+            class: "photo-cover " + _vm.determineSideOfPicture(index),
+            attrs: {
+              src: _vm.returnPhotoSrc(photo.name),
+              alt: "primary_photo_cover"
+            }
+          })
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm._t("default")
+    ],
+    2
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "yellow-thing" }, [
-        _c("p", [_vm._v("Vue component")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -12356,7 +12433,7 @@ Vue.compile = compileToFunctions;
 /******/ 		
 /******/ 		var deferredModules = [
 /******/ 			["./src/app.js"],
-/******/ 			["./src/app.scss"]
+/******/ 			["./src/scss/app.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

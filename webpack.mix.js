@@ -1,4 +1,4 @@
 const mix = require('laravel-mix');
 
 mix.js('src/app.js', 'dist')
-    .sass('src/app.scss', 'dist').vue()
+    .sass('src/scss/app.scss', 'dist').vue()

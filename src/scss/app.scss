@@ -1,9 +1,12 @@
-@import url(https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Poppins:wght@300;600&display=swap);
-* {
+
+@import "./variables";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Poppins:wght@300;600&display=swap');
+
+*{
   margin: 0;
 }
 
-#main-wrapper {
+#main-wrapper{
   height: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -13,97 +16,99 @@
   overflow: hidden;
 }
 
-#title, #subtitle {
+#title, #subtitle{
   width: 100%;
   text-align: center;
-  color: #FFFFFF;
+  color: $primary-color;
 }
 
-#title {
+#title{
   margin-bottom: 0.5em;
   font-size: 48px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 900;
   letter-spacing: 4px;
   text-transform: uppercase;
 }
 
-#subtitle {
+#subtitle{
   margin-bottom: 3em;
   font-size: 16px;
   letter-spacing: 1px;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 300;
 }
 
-.photo-cover {
+.photo-cover{
   position: absolute;
   top: 0;
   height: 100%;
   max-width: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   filter: brightness(70%);
   z-index: -10;
 }
 
-.left-0 {
+.left-0{
   left: 0;
 }
 
-.right-0 {
+.right-0{
   right: 0;
 }
 
-.w-full {
+.w-full{
   width: 100%;
 }
 
-.w-screen {
+.w-screen{
   width: 100vw;
 }
 
-.h-screen {
+.h-screen{
   height: 100vh;
 }
 
-.flex {
+.flex{
   display: flex;
 }
 
-.flex-wrap {
+.flex-wrap{
   flex-wrap: wrap;
 }
 
-.justify-center {
+.justify-center{
   justify-content: center;
 }
 
-.button {
-  color: #FFFFFF;
-  border: solid 3px #FFFFFF;
+.button{
+  color: $primary-color;
+  border: solid 3px $primary-color;
   padding: 15px 100px;
   font-size: 20px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   text-decoration: none;
   transition: 1s;
-}
-.button:first-of-type {
-  margin-right: 30px;
-}
-.button:last-of-type {
-  margin-left: 30px;
+  &:hover{
+
+  }
+  &:first-of-type{
+    margin-right: 30px;
+  }
+  &:last-of-type{
+    margin-left: 30px;
+  }
 }
 
 .slide-fade-enter-active {
-  transition: all 0.3s ease;
+  transition: all .3s ease;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.3s ease;
+  transition: all .3s ease;
 }
 
 .slide-fade-enter, .slide-fade-leave-to {
