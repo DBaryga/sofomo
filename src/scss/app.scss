@@ -23,8 +23,8 @@
 }
 
 #title{
-  margin-bottom: 0.5em;
-  font-size: 48px;
+  margin-bottom: 0.3em;
+  font-size: 52px;
   font-family: 'Poppins', sans-serif;
   font-weight: 900;
   letter-spacing: 4px;
@@ -32,11 +32,43 @@
 }
 
 #subtitle{
-  margin-bottom: 3em;
-  font-size: 16px;
+  margin-bottom: 2em;
+  font-size: 18px;
   letter-spacing: 1px;
   font-family: 'Inter', sans-serif;
   font-weight: 300;
+}
+
+#arrow-left{
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transition: 0.1s;
+  opacity: 0.5;
+  transform: scaleX(-1);
+  &:hover{
+    opacity: 1;
+  }
+}
+
+#arrow-right{
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transition: 0.1s;
+  opacity: 0.5;
+  &:hover{
+    opacity: 1;
+  }
+}
+
+#pagination{
+  position: absolute;
+  bottom: 80px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .photo-cover{
@@ -84,8 +116,9 @@
 .button{
   color: $primary-color;
   border: solid 3px $primary-color;
-  padding: 15px 100px;
-  font-size: 20px;
+  padding: 15px 90px;
+  margin: 0 35px;
+  font-size: 18px;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   letter-spacing: 2px;
@@ -95,23 +128,75 @@
   &:hover{
 
   }
-  &:first-of-type{
-    margin-right: 30px;
+}
+
+.button-wrapper{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.button-wrapper-left{
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-wrapper-right{
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.circle{
+  width: 15px;
+  height: 15px;
+  margin: 0 10px;
+  border-radius: 9999px;
+  background-color: $primary-color;
+  transition: 0.1s;
+  opacity: 0.5;
+  &:hover{
+    opacity: 1;
   }
-  &:last-of-type{
-    margin-left: 30px;
-  }
 }
 
-.slide-fade-enter-active {
-  transition: all .3s ease;
+.circle-active{
+  opacity: 1;
 }
 
-.slide-fade-leave-active {
-  transition: all .3s ease;
+.left-enter-active {
+  animation: leftIn 0.4s ease-in-out;
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
+.left-leave-active {
+  animation: leftOut 0.4s ease-in-out;
+}
+
+@keyframes leftIn {
+  from { transform: translateX(-200%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes leftOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(200%); }
+}
+
+.right-enter-active {
+  animation: rightIn 0.4s ease-in-out;
+}
+
+.right-leave-active {
+  animation: rightOut 0.4s ease-in-out;
+}
+
+@keyframes rightIn {
+  from { transform: translateX(200%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes rightOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(-200%); }
 }
