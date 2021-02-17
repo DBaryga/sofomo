@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: tan;
+  overflow: hidden;
 }
 
 #title, #subtitle {
@@ -36,10 +36,16 @@
   font-weight: 300;
 }
 
-#primary-photo-cover {
+.primary-photo-cover {
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
+  max-width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  filter: brightness(70%);
+  z-index: -10;
 }
 
 .w-full {
@@ -73,6 +79,7 @@
   font-size: 20px;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
+  letter-spacing: 2px;
   text-transform: uppercase;
   text-decoration: none;
   transition: 1s;
@@ -82,4 +89,17 @@
 }
 .button:last-of-type {
   margin-left: 30px;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
 }

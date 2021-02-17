@@ -18,8 +18,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "slider"
+  name: "slider",
+  props: {
+    photosJson: String
+  },
+  data: function data() {
+    return {
+      isMobile: false,
+      activePrimaryPhoto: 0,
+      photosArray: []
+    };
+  },
+  methods: {
+    convertJsonToArray: function convertJsonToArray() {
+      var json = JSON.parse(this.photosJson);
+
+      for (var i = 0; i < json.length; i++) {
+        this.photosArray.push({
+          id: i,
+          name: json[i].name,
+          alt: json[i].alt
+        });
+      }
+    },
+    listenForScreenResizing: function listenForScreenResizing() {
+      window.addEventListener('resize', this.checkIfMobile);
+    },
+    checkIfMobile: function checkIfMobile() {
+      window.innerWidth < 1024 ? this.isMobile = true : this.isMobile = false;
+    },
+    checkIfActivePhoto: function checkIfActivePhoto(index) {
+      return index === this.activePrimaryPhoto;
+    },
+    startTimer: function startTimer() {
+      setTimeout(this.changePictures, 7000);
+    },
+    changePictures: function changePictures() {
+      this.activePrimaryPhoto == this.photosArray.length - 1 ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto++;
+      this.startTimer();
+    },
+    returnPrimaryPhotoSrc: function returnPrimaryPhotoSrc(photo_name) {
+      return "dist/assets/" + photo_name;
+    }
+  },
+  mounted: function mounted() {
+    this.convertJsonToArray();
+    this.listenForScreenResizing();
+    this.checkIfMobile();
+    this.startTimer();
+  }
 });
 
 /***/ }),
@@ -143,7 +195,33 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "w-full", attrs: { id: "main-wrapper" } },
-    [_vm._t("default")],
+    [
+      _c(
+        "transition-group",
+        { attrs: { name: "slide-fade" } },
+        _vm._l(_vm.photosArray, function(photo, index) {
+          return _c("img", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.checkIfActivePhoto(index),
+                expression: "checkIfActivePhoto(index)"
+              }
+            ],
+            key: photo.id,
+            staticClass: "primary-photo-cover",
+            attrs: {
+              src: _vm.returnPrimaryPhotoSrc(photo.name),
+              alt: "primary_photo_cover"
+            }
+          })
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm._t("default")
+    ],
     2
   )
 }
