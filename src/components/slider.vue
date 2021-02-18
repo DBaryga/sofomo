@@ -15,6 +15,9 @@
       <span v-for="index in this.photosLength" v-if="isMobile" @click="changePage(index-1)"
             :class="[{'circle-active' : activePrimaryPhoto === index - 1}]" class="circle"></span>
     </div>
+    <div id="progress-bar-wrapper">
+      <p id="progress-bar" :style="'width:' + progressBarWidth + '%'">s</p>
+    </div>
   </div>
 </template>
 
@@ -27,12 +30,14 @@ export default {
 
   data() {
     return {
+      photosArray: [],
       isMobile: false,
       activePrimaryPhoto: 0,
       activeSecondaryPhoto: 1,
-      photosArray: [],
       timer: null,
-      direction: 'right'
+      progressTimer: null,
+      progressBarWidth: 0,
+      direction: 'right',
     }
   },
 
@@ -69,6 +74,13 @@ export default {
     restartTimer() {
       clearTimeout(this.timer);
       this.timer = setTimeout(this.changePicturesInLoop, 7000);
+      this.restartProgressBar();
+    },
+
+    restartProgressBar(){
+      clearInterval(this.progressTimer);
+      this.progressBarWidth = 0;
+      this.progressTimer = setInterval(this.changeProgressBarWidth, 70)
     },
 
     checkIfActivePhoto(index) {
@@ -117,6 +129,12 @@ export default {
 
     returnPhotoSrc(photo_name) {
       return "dist/assets/" + photo_name;
+    },
+
+    changeProgressBarWidth(){
+      if (this.progressBarWidth < 100) {
+        this.progressBarWidth++
+      }
     }
   },
 
