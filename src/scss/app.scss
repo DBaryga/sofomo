@@ -75,17 +75,25 @@
   position: absolute;
   top: 0;
   height: 100%;
-  max-width: 50%;
-  object-fit: cover;
+  left: -35%;
   z-index: -10;
+  @media (min-width: 1024px) {
+    object-fit: cover;
+    max-width: 50%;
+    left: auto;
+  }
 }
 
-.left-0{
-  left: 0;
+.photo-cover-left-0{
+  @media (min-width: 1024px){
+    left: 0;
+  }
 }
 
-.right-0{
-  right: 0;
+.photo-cover-right-0{
+  @media (min-width: 1024px){
+    right: 0;
+  }
 }
 
 .w-full{
@@ -165,37 +173,75 @@
 }
 
 .left-enter-active {
-  animation: leftIn 0.4s ease-in-out;
+  animation: leftIn 0.3s ease-in-out;
 }
 
 .left-leave-active {
-  animation: leftOut 0.4s ease-in-out;
+  animation: leftOut 0.3s ease-in-out;
+}
+
+.right-enter-active {
+  animation: rightIn 0.3s ease-in-out;
+}
+
+.right-leave-active {
+  animation: rightOut 0.3s ease-in-out;
 }
 
 @keyframes leftIn {
-  from { transform: translateX(-200%); }
+  from { transform: translateX(-100%); }
   to { transform: translateX(0); }
 }
 
 @keyframes leftOut {
   from { transform: translateX(0); }
-  to { transform: translateX(200%); }
-}
-
-.right-enter-active {
-  animation: rightIn 0.4s ease-in-out;
-}
-
-.right-leave-active {
-  animation: rightOut 0.4s ease-in-out;
+  to { transform: translateX(100%); }
 }
 
 @keyframes rightIn {
-  from { transform: translateX(200%); }
+  from { transform: translateX(100%); }
   to { transform: translateX(0); }
 }
 
 @keyframes rightOut {
   from { transform: translateX(0); }
-  to { transform: translateX(-200%); }
+  to { transform: translateX(-100%); }
+}
+
+@media (min-width: 1024px) {
+  .left-enter-active {
+    animation: leftIn 0.4s ease-in-out;
+  }
+
+  .left-leave-active {
+    animation: leftOut 0.4s ease-in-out;
+  }
+
+  .right-enter-active {
+    animation: rightIn 0.4s ease-in-out;
+  }
+
+  .right-leave-active {
+    animation: rightOut 0.4s ease-in-out;
+  }
+
+  @keyframes leftIn {
+    from { transform: translateX(-200%); }
+    to { transform: translateX(0); }
+  }
+
+  @keyframes leftOut {
+    from { transform: translateX(0); }
+    to { transform: translateX(200%); }
+  }
+
+  @keyframes rightIn {
+    from { transform: translateX(200%); }
+    to { transform: translateX(0); }
+  }
+
+  @keyframes rightOut {
+    from { transform: translateX(0); }
+    to { transform: translateX(-200%); }
+  }
 }
