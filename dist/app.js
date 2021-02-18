@@ -22,6 +22,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "slider",
   props: {
@@ -32,10 +42,18 @@ __webpack_require__.r(__webpack_exports__);
       isMobile: false,
       activePrimaryPhoto: 0,
       activeSecondaryPhoto: 1,
-      photosArray: []
+      photosArray: [],
+      timer: null,
+      direction: 'right'
     };
   },
+  computed: {
+    photosLength: function photosLength() {
+      return this.photosArray.length;
+    }
+  },
   methods: {
+    // --- initial only ---
     convertJsonToArray: function convertJsonToArray() {
       var json = JSON.parse(this.photosJson);
 
@@ -50,37 +68,66 @@ __webpack_require__.r(__webpack_exports__);
     listenForScreenResizing: function listenForScreenResizing() {
       window.addEventListener('resize', this.checkIfMobile);
     },
+    // --- end of initial only ---
     checkIfMobile: function checkIfMobile() {
       window.innerWidth < 1024 ? this.isMobile = true : this.isMobile = false;
+      this.resetActivePictures();
+      this.restartTimer();
+    },
+    restartTimer: function restartTimer() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(this.changePicturesInLoop, 7000);
     },
     checkIfActivePhoto: function checkIfActivePhoto(index) {
+      if (this.isMobile) return index === this.activePrimaryPhoto;
       return index === this.activePrimaryPhoto || index === this.activeSecondaryPhoto;
     },
-    startTimer: function startTimer() {
-      setTimeout(this.changePictures, 7000);
+    nextPicture: function nextPicture(direction) {
+      direction === 'left' ? this.direction = 'left' : this.direction = 'right';
+      this.changePicturesInLoop();
     },
-    changePictures: function changePictures() {
+    changePage: function changePage(item_index) {
+      item_index < this.activePrimaryPhoto ? this.nextPicture('left') : this.nextPicture('right');
+      this.activePrimaryPhoto = item_index;
+      this.activeSecondaryPhoto = item_index + 1;
+    },
+    changePicturesInLoop: function changePicturesInLoop() {
       if (this.isMobile) {
-        this.activePrimaryPhoto == this.photosArray.length - 1 ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto++;
+        if (this.direction === 'left') {
+          this.activePrimaryPhoto === 0 ? this.activePrimaryPhoto = this.photosLength - 1 : this.activePrimaryPhoto--;
+        } else {
+          this.activePrimaryPhoto === this.photosLength - 1 ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto++;
+        }
       } else {
-        this.activePrimaryPhoto == this.photosArray.length - 2 ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto += 2;
-        this.activeSecondaryPhoto == this.photosArray.length - 1 ? this.activeSecondaryPhoto = 1 : this.activeSecondaryPhoto += 2;
+        if (this.direction === 'left') {
+          this.activePrimaryPhoto === 0 ? this.activePrimaryPhoto = this.photosLength - 2 : this.activePrimaryPhoto -= 2;
+          this.activeSecondaryPhoto === 1 ? this.activeSecondaryPhoto = this.photosLength - 1 : this.activeSecondaryPhoto -= 2;
+        } else {
+          this.activePrimaryPhoto === this.photosLength - 2 ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto += 2;
+          this.activeSecondaryPhoto === this.photosLength - 1 ? this.activeSecondaryPhoto = 1 : this.activeSecondaryPhoto += 2;
+        }
       }
 
-      this.startTimer();
+      this.restartTimer();
+    },
+    resetActivePictures: function resetActivePictures() {
+      this.activePrimaryPhoto = 0;
+      this.activeSecondaryPhoto = 1;
+    },
+    determineSideOfPicture: function determineSideOfPicture(index) {
+      return index % 2 === 0 ? 'photo-cover-left-0' : 'photo-cover-right-0';
     },
     returnPhotoSrc: function returnPhotoSrc(photo_name) {
       return "dist/assets/" + photo_name;
-    },
-    determineSideOfPicture: function determineSideOfPicture(index) {
-      return index % 2 === 0 ? 'left-0' : 'right-0';
     }
   },
-  mounted: function mounted() {
+  beforeMount: function beforeMount() {
     this.convertJsonToArray();
+  },
+  mounted: function mounted() {
     this.listenForScreenResizing();
     this.checkIfMobile();
-    this.startTimer();
+    this.restartTimer();
   }
 });
 
@@ -206,9 +253,35 @@ var render = function() {
     "div",
     { staticClass: "w-full", attrs: { id: "main-wrapper" } },
     [
+      _c("img", {
+        attrs: {
+          id: "arrow-left",
+          src: "dist/assets/arrow.svg",
+          alt: "arrow_left"
+        },
+        on: {
+          click: function($event) {
+            return _vm.nextPicture("left")
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("img", {
+        attrs: {
+          id: "arrow-right",
+          src: "dist/assets/arrow.svg",
+          alt: "arrow_right"
+        },
+        on: {
+          click: function($event) {
+            return _vm.nextPicture("right")
+          }
+        }
+      }),
+      _vm._v(" "),
       _c(
         "transition-group",
-        { attrs: { name: "slide-fade" } },
+        { attrs: { name: _vm.direction } },
         _vm._l(_vm.photosArray, function(photo, index) {
           return _c("img", {
             directives: [
@@ -230,7 +303,46 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _vm._t("default")
+      _vm._t("default"),
+      _vm._v(" "),
+      _c(
+        "div",
+        { attrs: { id: "pagination" } },
+        [
+          _vm._l(this.photosLength, function(index) {
+            return !_vm.isMobile && index % 2 === 0
+              ? _c("span", {
+                  staticClass: "circle",
+                  class: [
+                    { "circle-active": _vm.activePrimaryPhoto === index - 2 }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.changePage(index - 2)
+                    }
+                  }
+                })
+              : _vm._e()
+          }),
+          _vm._v(" "),
+          _vm._l(this.photosLength, function(index) {
+            return _vm.isMobile
+              ? _c("span", {
+                  staticClass: "circle",
+                  class: [
+                    { "circle-active": _vm.activePrimaryPhoto === index - 1 }
+                  ],
+                  on: {
+                    click: function($event) {
+                      return _vm.changePage(index - 1)
+                    }
+                  }
+                })
+              : _vm._e()
+          })
+        ],
+        2
+      )
     ],
     2
   )

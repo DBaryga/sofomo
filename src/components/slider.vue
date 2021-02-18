@@ -1,10 +1,20 @@
 <template>
   <div id="main-wrapper" class="w-full">
-    <transition-group name="slide-fade">
-      <img v-for="(photo, index) in photosArray" :key="photo.id" v-show="checkIfActivePhoto(index)" :class="'photo-cover ' + determineSideOfPicture(index)"
+    <img @click="nextPicture('left')" id="arrow-left" src="dist/assets/arrow.svg" alt="arrow_left">
+    <img @click="nextPicture('right')" id="arrow-right" src="dist/assets/arrow.svg" alt="arrow_right">
+
+    <transition-group :name="direction">
+      <img v-for="(photo, index) in photosArray" :key="photo.id" v-show="checkIfActivePhoto(index)"
+           :class="'photo-cover ' + determineSideOfPicture(index)"
            :src="returnPhotoSrc(photo.name)" alt="primary_photo_cover">
     </transition-group>
     <slot></slot>
+    <div id="pagination">
+      <span v-for="index in this.photosLength" v-if="(!isMobile && index % 2 === 0)" @click="changePage(index-2)"
+            :class="[{'circle-active' : activePrimaryPhoto === index - 2}]" class="circle"></span>
+      <span v-for="index in this.photosLength" v-if="isMobile" @click="changePage(index-1)"
+            :class="[{'circle-active' : activePrimaryPhoto === index - 1}]" class="circle"></span>
+    </div>
   </div>
 </template>
 
@@ -14,15 +24,26 @@ export default {
   props: {
     photosJson: String
   },
+
   data() {
     return {
       isMobile: false,
       activePrimaryPhoto: 0,
       activeSecondaryPhoto: 1,
-      photosArray: []
+      photosArray: [],
+      timer: null,
+      direction: 'right'
     }
   },
+
+  computed: {
+    photosLength() {
+      return this.photosArray.length;
+    }
+  },
+
   methods: {
+    // --- initial only ---
     convertJsonToArray() {
       const json = JSON.parse(this.photosJson);
       for (let i = 0; i < json.length; i++) {
@@ -33,39 +54,80 @@ export default {
         })
       }
     },
+
     listenForScreenResizing() {
       window.addEventListener('resize', this.checkIfMobile)
     },
+    // --- end of initial only ---
+
     checkIfMobile() {
       window.innerWidth < 1024 ? this.isMobile = true : this.isMobile = false;
+      this.resetActivePictures();
+      this.restartTimer();
     },
+
+    restartTimer() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(this.changePicturesInLoop, 7000);
+    },
+
     checkIfActivePhoto(index) {
+      if (this.isMobile) return index === this.activePrimaryPhoto;
       return index === this.activePrimaryPhoto || index === this.activeSecondaryPhoto;
     },
-    startTimer() {
-      setTimeout(this.changePictures, 7000);
+
+    nextPicture(direction) {
+      direction === 'left' ? this.direction = 'left' : this.direction = 'right';
+      this.changePicturesInLoop();
     },
-    changePictures() {
-      if (this.isMobile){
-        this.activePrimaryPhoto == (this.photosArray.length-1) ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto++;
-      }else{
-        this.activePrimaryPhoto == (this.photosArray.length-2) ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto+=2;
-        this.activeSecondaryPhoto == (this.photosArray.length-1) ? this.activeSecondaryPhoto = 1 : this.activeSecondaryPhoto+=2;
+
+    changePage(item_index) {
+      item_index < this.activePrimaryPhoto ? this.nextPicture('left') : this.nextPicture('right');
+      this.activePrimaryPhoto = item_index;
+      this.activeSecondaryPhoto = item_index + 1;
+    },
+
+    changePicturesInLoop() {
+      if (this.isMobile) {
+        if (this.direction === 'left') {
+          this.activePrimaryPhoto === 0 ? this.activePrimaryPhoto = (this.photosLength - 1) : this.activePrimaryPhoto--;
+        } else {
+          this.activePrimaryPhoto === (this.photosLength - 1) ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto++;
+        }
+      } else {
+        if (this.direction === 'left') {
+          this.activePrimaryPhoto === 0 ? this.activePrimaryPhoto = this.photosLength - 2 : this.activePrimaryPhoto -= 2;
+          this.activeSecondaryPhoto === 1 ? this.activeSecondaryPhoto = this.photosLength - 1 : this.activeSecondaryPhoto -= 2;
+        } else {
+          this.activePrimaryPhoto === (this.photosLength - 2) ? this.activePrimaryPhoto = 0 : this.activePrimaryPhoto += 2;
+          this.activeSecondaryPhoto === (this.photosLength - 1) ? this.activeSecondaryPhoto = 1 : this.activeSecondaryPhoto += 2;
+        }
       }
-      this.startTimer();
+      this.restartTimer();
     },
+
+    resetActivePictures(){
+      this.activePrimaryPhoto = 0;
+      this.activeSecondaryPhoto = 1;
+    },
+
+    determineSideOfPicture(index) {
+      return index % 2 === 0 ? 'photo-cover-left-0' : 'photo-cover-right-0';
+    },
+
     returnPhotoSrc(photo_name) {
       return "dist/assets/" + photo_name;
-    },
-    determineSideOfPicture(index){
-      return index % 2 === 0 ? 'left-0' : 'right-0';
     }
   },
-  mounted() {
+
+  beforeMount() {
     this.convertJsonToArray();
+  },
+
+  mounted() {
     this.listenForScreenResizing();
     this.checkIfMobile();
-    this.startTimer();
+    this.restartTimer();
   }
 }
 </script>
