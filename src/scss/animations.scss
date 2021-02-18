@@ -1,0 +1,73 @@
+.left-enter-active {
+  animation: leftIn 0.3s ease-in-out;
+}
+
+.left-leave-active {
+  animation: leftOut 0.3s ease-in-out;
+}
+
+.right-enter-active {
+  animation: rightIn 0.3s ease-in-out;
+}
+
+.right-leave-active {
+  animation: rightOut 0.3s ease-in-out;
+}
+
+@keyframes leftIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes leftOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes rightIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes rightOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@media (min-width: 1024px) {
+  .left-enter-active {
+    animation: leftIn 0.4s ease-in-out;
+  }
+
+  .left-leave-active {
+    animation: leftOut 0.4s ease-in-out;
+  }
+
+  .right-enter-active {
+    animation: rightIn 0.4s ease-in-out;
+  }
+
+  .right-leave-active {
+    animation: rightOut 0.4s ease-in-out;
+  }
+
+  @keyframes leftIn {
+    from { transform: translateX(-200%); }
+    to { transform: translateX(0); }
+  }
+
+  @keyframes leftOut {
+    from { transform: translateX(0); }
+    to { transform: translateX(200%); }
+  }
+
+  @keyframes rightIn {
+    from { transform: translateX(200%); }
+    to { transform: translateX(0); }
+  }
+
+  @keyframes rightOut {
+    from { transform: translateX(0); }
+    to { transform: translateX(-200%); }
+  }
+}

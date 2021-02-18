@@ -1,0 +1,121 @@
+@import "./variables";
+
+.photo-cover{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  max-width: 100%;
+  z-index: -10;
+  object-fit: cover;
+  @media (min-width: 1024px) {
+    max-width: 50%;
+    left: auto;
+  }
+}
+
+.photo-cover-left-0{
+  @media (min-width: 1024px){
+    left: 0;
+  }
+}
+
+.photo-cover-right-0{
+  @media (min-width: 1024px){
+    right: 0;
+  }
+}
+
+.w-full{
+  width: 100%;
+}
+
+.w-screen{
+  width: 100vw;
+}
+
+.h-screen{
+  height: 100vh;
+}
+
+.flex{
+  display: flex;
+}
+
+.flex-wrap{
+  flex-wrap: wrap;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.container{
+  width: 100%;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  @media (max-height: 768px) {
+    align-items: flex-start;
+  }
+  @media (min-width: 640px) {
+    width: 425px;
+    padding: 0;
+  }
+  @media (min-width: 768px) {
+    width: 600px;
+  }
+  @media (min-width: 1024px) {
+    width: 100%;
+  }
+}
+
+.button{
+  width: 100%;
+  color: $primary-color;
+  border: solid 3px $primary-color;
+  padding: 10px 0;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: 1s;
+  &:hover{
+
+  }
+  @media (min-width: 600px) {
+    font-size: 18px;
+    padding: 15px 90px;
+  }
+
+  @media (min-width: 1024px) {
+    width: auto;
+    margin: 0 35px;
+  }
+}
+
+.button-wrapper{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.circle{
+  width: 15px;
+  height: 15px;
+  margin: 0 10px;
+  border-radius: 9999px;
+  background-color: $primary-color;
+  transition: 0.1s;
+  opacity: 0.5;
+  &:hover{
+    opacity: 1;
+  }
+}
+
+.circle-active{
+  opacity: 1;
+}
