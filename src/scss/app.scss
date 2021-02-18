@@ -10,10 +10,12 @@
   height: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  @media (min-width: 640px) {
+    align-items: center;
+  }
 }
 
 #title, #subtitle{
@@ -24,35 +26,50 @@
 
 #title{
   margin-bottom: 0.3em;
-  font-size: 52px;
+  font-size: 24px;
   font-family: 'Poppins', sans-serif;
   font-weight: 900;
   letter-spacing: 4px;
   text-transform: uppercase;
+  @media (min-width: 600px) {
+    font-size: 52px;
+  }
 }
 
 #subtitle{
   margin-bottom: 2em;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 1px;
   font-family: 'Inter', sans-serif;
   font-weight: 300;
+  @media (min-width: 600px) {
+    font-size: 18px;
+  }
 }
 
 #arrow-left{
-  width: 30px;
+  display: none;
   position: absolute;
   top: 50%;
-  left: 30px;
   transition: 0.1s;
   opacity: 0.5;
   transform: scaleX(-1);
   &:hover{
     opacity: 1;
   }
+  @media (min-width: 640px) {
+    display: block;
+    width: 20px;
+    left: 20px;
+  }
+  @media (min-width: 1280px) {
+    width: 30px;
+    left: 30px;
+  }
 }
 
 #arrow-right{
+  display: none;
   width: 30px;
   position: absolute;
   top: 50%;
@@ -62,23 +79,39 @@
   &:hover{
     opacity: 1;
   }
+  @media (min-width: 640px) {
+    display: block;
+    width: 20px;
+    right: 20px;
+  }
+  @media (min-width: 1280px) {
+    width: 30px;
+    right: 30px;
+  }
 }
 
 #pagination{
   position: absolute;
-  bottom: 80px;
+  bottom: 40px;
   display: flex;
   flex-wrap: wrap;
+  @media (min-width: 768px) {
+    bottom: 60px;
+  }
+  @media (min-width: 1024px) {
+    bottom: 80px;
+  }
 }
 
 .photo-cover{
   position: absolute;
   top: 0;
+  left: 0;
   height: 100%;
-  left: -35%;
+  max-width: 100%;
   z-index: -10;
+  object-fit: cover;
   @media (min-width: 1024px) {
-    object-fit: cover;
     max-width: 50%;
     left: auto;
   }
@@ -120,20 +153,50 @@
   justify-content: center;
 }
 
+.container{
+  width: 100%;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  @media (max-height: 768px) {
+    align-items: flex-start;
+  }
+  @media (min-width: 640px) {
+    width: 425px;
+    padding: 0;
+  }
+  @media (min-width: 768px) {
+    width: 600px;
+  }
+  @media (min-width: 1024px) {
+    width: 100%;
+  }
+}
+
 .button{
+  width: 100%;
   color: $primary-color;
   border: solid 3px $primary-color;
-  padding: 15px 90px;
-  margin: 0 35px;
-  font-size: 18px;
+  padding: 10px 0;
+  font-size: 16px;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   letter-spacing: 2px;
+  text-align: center;
   text-transform: uppercase;
   text-decoration: none;
   transition: 1s;
   &:hover{
 
+  }
+  @media (min-width: 600px) {
+    font-size: 18px;
+    padding: 15px 90px;
+  }
+
+  @media (min-width: 1024px) {
+    width: auto;
+    margin: 0 35px;
   }
 }
 
@@ -144,15 +207,23 @@
 }
 
 .button-wrapper-left{
-  width: 50%;
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  margin-bottom: 20px;
+  @media (min-width: 1024px) {
+    width: 50%;
+    justify-content: flex-end;
+    margin-bottom: 0;
+  }
 }
 
 .button-wrapper-right{
-  width: 50%;
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
+  @media (min-width: 1024px) {
+    width: 50%;
+    justify-content: flex-start;
+  }
 }
 
 .circle{
