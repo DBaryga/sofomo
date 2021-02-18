@@ -92,7 +92,11 @@
   text-align: center;
   text-transform: uppercase;
   text-decoration: none;
-  transition: 1s;
+  transition: 0.5s;
+}
+.button:hover {
+  color: #000000;
+  background-color: #FFFFFF;
 }
 @media (min-width: 600px) {
   .button {

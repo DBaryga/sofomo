@@ -82,9 +82,10 @@
   text-align: center;
   text-transform: uppercase;
   text-decoration: none;
-  transition: 1s;
+  transition: 0.5s;
   &:hover{
-
+    color: $secondary-color;
+    background-color: $primary-color;
   }
   @media (min-width: 600px) {
     font-size: 18px;
